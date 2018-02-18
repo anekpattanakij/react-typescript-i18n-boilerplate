@@ -4,6 +4,7 @@ import Todo from '../../common/Todo';
 import TodoComponent from '../../components/TodoComponent';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
+import ContentView from '../content/ContentView';
 
 export interface IIndexState {
     title: string;
@@ -22,6 +23,7 @@ export type IIndexProps = IIndexState & IIndexDispatch & RouteComponentProps<und
 const IndexView: React.StatelessComponent<IIndexProps> = ({ title, todos, loading, setTitle, saveTodo, setDone }) =>
     <main className="index">
         {loading && <Loader />}
+        <ContentView/>
         <h1 className="index__header">Todo app</h1>
         <form className="index__form" onSubmit={e => e.preventDefault()}>
             <label className="index__form__label" htmlFor="newtodo">
