@@ -11,6 +11,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import reducer, { epics, State } from './redux/reducer';
 import AppContainer from './modules/AppContainer';
+import i18n from './i18n/i18n-server';
+import * as i18nMiddleware from 'i18next-express-middleware';
 
 const normalizePort = (val: number | string): number | string | boolean => {
     const base = 10;
@@ -51,7 +53,7 @@ const port = normalizePort(process.env.PORT || defaultPort);
 const app = express();
 
 app.use('/assets', express.static(path.join('assets'), { redirect: false }));
-
+app.use(i18nMiddleware.handle(i18n));
 app.use((req: express.Request, res: express.Response) => {
     const store = createStore<State>(
         reducer,
