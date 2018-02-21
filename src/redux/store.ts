@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import { History } from 'history';
 import { routerMiddleware } from 'react-router-redux';
+import thunk from 'redux-thunk';
 import reducer, { epics, State } from './reducer';
 
 // Below is a necessary hack to access __PRELOADED_STATE__ on the global window object
@@ -16,7 +17,7 @@ const configureStore = (history: History) =>
     createStore<State>(
         reducer,
         preloadedState,
-        composeEnhancers(applyMiddleware(routerMiddleware(history), epicMiddleware)),
+        composeEnhancers(applyMiddleware(routerMiddleware(history), epicMiddleware, thunk)),
     );
 
 export default configureStore;
