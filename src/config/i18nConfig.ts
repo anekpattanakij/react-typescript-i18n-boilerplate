@@ -1,4 +1,4 @@
 export interface I18nConfig {
-    whitelist:string[];
-    fallbackLng:string[];
-  }
+  whitelist: string[];
+  fallbackLng: string[];
+}

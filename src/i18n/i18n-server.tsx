@@ -6,8 +6,8 @@ import { reactI18nextModule } from 'react-i18next';
 import { Config } from '../config';
 
 const options = {
-    whitelist: Config.configSet.i18n.whitelist,
-    fallbackLng: Config.configSet.i18n.fallbackLng,
+  whitelist: Config.configSet.i18n.whitelist,
+  fallbackLng: Config.configSet.i18n.fallbackLng,
 
   // have a common namespace used around the full app
   ns: ['common'],
