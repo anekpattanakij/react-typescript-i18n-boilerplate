@@ -1,4 +1,4 @@
-import IndexPage from '../modules/index/IndexView';
+import IndexPage from '../modules/index/IndexContainer';
 import ContentPage from '../modules/content/ContentView';
 
 const routeList: Array<object> = [

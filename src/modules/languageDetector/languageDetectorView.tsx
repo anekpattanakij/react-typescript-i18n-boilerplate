@@ -14,8 +14,7 @@ import { RouteComponentProps } from 'react-router-dom';
 // import changeUser from '../UserLogon/action';
 
 interface IProps {
-  url: string;
-  params: { lng: string };
+  match: { url:string, params:{ lng: string }};
 }
 
 export interface ILanguageDetectorState {
@@ -50,10 +49,10 @@ class  LanguageDetector extends React.PureComponent<ILanguageDetectorProps> {
       );
       return childrenRoute;
     };
-    if ( i18n.language !== this.props.params.lng) {
-      i18n.changeLanguage(this.props.params.lng);
+    if ( i18n.language !== this.props.match.params.lng) {
+      i18n.changeLanguage(this.props.match.params.lng);
     }
-    if (Config.configSet.i18n.whitelist.indexOf(this.props.params.lng) <= -1) {
+    if (Config.configSet.i18n.whitelist.indexOf(this.props.match.params.lng) <= -1) {
       // Not in the whitelist language redirect to not found
       return (
         <div>
@@ -65,7 +64,7 @@ class  LanguageDetector extends React.PureComponent<ILanguageDetectorProps> {
     }
     return (
       <div>
-        <Switch>{routes.map(route => RouteWithSubRoutes(this.props.url, this.props.params.lng , route))}</Switch>
+        <Switch>{routes.map(route => RouteWithSubRoutes(this.props.match.url, this.props.match.params.lng , route))}</Switch>
       </div>
     );
   }
