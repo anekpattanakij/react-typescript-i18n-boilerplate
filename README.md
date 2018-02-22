@@ -1,5 +1,5 @@
 # React Redux with i18n and TypeScript
-React boilerplate with i18n and SSR
+
 ---
 
 ## About
