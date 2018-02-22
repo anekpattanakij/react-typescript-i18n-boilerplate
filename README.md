@@ -25,8 +25,8 @@
 I tried to make the internation web page with SEO friendly by adding language selector as a part URL as example below. To make search engine to crawl to these page with the right language.
 
 ```bash
-http://localhost:3005/en/content
-http://localhost:3005/th/content
+http://localhost:9966/en/content
+http://localhost:9966/th/content
 ```
 
 ## Running Prod Server
