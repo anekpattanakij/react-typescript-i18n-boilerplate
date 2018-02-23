@@ -10,7 +10,7 @@ const reducer = combineReducers<State>({
     router: routerReducer,
     index: IndexReducer,
     languageDetector: LanguageDetectorReducer,
-    members: MemberReducer,
+    member: MemberReducer,
 });
 
 export class State {

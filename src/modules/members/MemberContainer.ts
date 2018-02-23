@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { State } from '../../redux/reducer';
-import dispatchList from './MemberReducer';
+import { dispatchList } from './MemberReducer';
 import Member from '../../common/Member';
 import MemberView, { IMemberState, IMemberDispatch, IMemberProps } from './MemberView';
 
