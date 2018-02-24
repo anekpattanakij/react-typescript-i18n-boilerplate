@@ -18,11 +18,13 @@ export class MemberState {
 }
 
 
+export const loadMembersRequesting = makeAction(MEMBERS_REQUESTING)(() => ({ type: MEMBERS_REQUESTING}));
 export const loadMembersSuccess = makeAction(MEMBERS_SUCCESS)((members) => ({ type: MEMBERS_SUCCESS, payload:members.data}));
 export const loadMembersFailure = makeAction(MEMBERS_FAILURE)((error) => ({ type: MEMBERS_FAILURE, payload:error }));
 
 export const loadMembers = () => {
     return (dispatch: Dispatch<any>) => {
+      dispatch(loadMembersRequesting());
       axios.get(MEMBERS_API)
         .then((members) => {
         dispatch(loadMembersSuccess(members));
@@ -36,16 +38,24 @@ export const loadMembers = () => {
 export const dispatchList = { loadMembers };
 
 const MemberReducer = (state: MemberState = new MemberState(), action: Action): MemberState => {
-    if (isAction(action, loadMembersSuccess)) {
+    if (isAction(action, loadMembersRequesting)) {
+        return {
+            ...state,
+            loading: true,
+            readyStatus: MEMBERS_REQUESTING,
+        };
+    } else if (isAction(action, loadMembersSuccess)) {
         return {
             ...state,
             members: action.payload,
             loading: false,
+            readyStatus: MEMBERS_SUCCESS,
         };
     } else if (isAction(action, loadMembersFailure)) {
         return {
             ...state,
             loading: false,
+            readyStatus: MEMBERS_FAILURE,
         };
     } else{
         return state;
