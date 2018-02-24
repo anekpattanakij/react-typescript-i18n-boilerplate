@@ -13,7 +13,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
 export class LoginState {
-    readonly user: User = null;
+    readonly user: User = new User('',false);
     readonly errorList: Array<Error> = [];
     readonly loading:boolean = false;
     readonly readyStatus: string = LOGIN_INITIAL;

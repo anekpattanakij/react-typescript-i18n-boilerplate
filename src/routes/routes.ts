@@ -1,6 +1,7 @@
 import IndexPage from '../modules/index/IndexContainer';
 import ContentPage from '../modules/content/ContentView';
 import MemberPage from '../modules/members/MemberContainer';
+import LoginPage from '../modules/login/LoginContainer';
 
 const routeList: Array<object> = [
   {
@@ -11,12 +12,17 @@ const routeList: Array<object> = [
   {
     path: '/content',
     exact: true,
-    component: ContentPage, // Add your route here
+    component: ContentPage,
   },
   {
     path: '/members',
     exact: true,
-    component: MemberPage, // Add your route here
+    component: MemberPage,
+  },
+  {
+    path: '/login',
+    exact: true,
+    component: LoginPage,
   },
 ];
 
