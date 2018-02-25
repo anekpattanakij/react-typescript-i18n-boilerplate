@@ -33,12 +33,13 @@ export const loginUser = (userid:string) => {
     dispatch(loginRequesting());
     await sleep(LOGIN_SLEEP_TIME);
     if (Math.random() > LOGIN_SUCCESS_CHANCE) {
-        dispatch(loginSuccess(userid));
+        const user = new User(userid,true);
+        dispatch(loginSuccess(user));
     } else {
         const errors:Array<Error> = [];
-      const err:Error = new Error( 'ERR001', 'Logon Fail' );
-      errors.push(err);
-        dispatch(loginFailure(err));
+        const err:Error = new Error( 'ERR001', 'Logon Fail' );
+        errors.push(err);
+        dispatch(loginFailure(errors));
     }
   };
 };

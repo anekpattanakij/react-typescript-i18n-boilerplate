@@ -19,7 +19,7 @@ const PrivateRoute = ({ auth, children }: Props) => {
   }
   return (
     <div>
-      You are not authrized!!
+      You are not authroized!!
     </div>
   );
 };

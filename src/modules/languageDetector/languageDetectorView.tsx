@@ -9,8 +9,10 @@ import Language from '../../common/Language';
 import { Config } from '../../config';
 import PageNotFound from '../../components/PageNotFound';
 import routes from '../../routes/routes';
+import PrivateRoute from '../../routes/privateRoute';
 import { setLanguage } from './languageDetectorReducer';
 import { RouteComponentProps } from 'react-router-dom';
+
 // import changeUser from '../UserLogon/action';
 
 interface IProps {
@@ -34,6 +36,12 @@ class  LanguageDetector extends React.PureComponent<ILanguageDetectorProps> {
     this.props.setLanguage(i18n.language);
   }
 
+  componentWillMount() {
+    if ( i18n.language !== this.props.match.params.lng) {
+      i18n.changeLanguage(this.props.match.params.lng);
+    }
+  }
+
   render() {
     const RouteWithSubRoutes = (url:string, lng: string , route:any): React.ReactElement<typeof Route> => {
       const childrenRoute = (
@@ -47,11 +55,15 @@ class  LanguageDetector extends React.PureComponent<ILanguageDetectorProps> {
           )}
         />
       );
+      /* if (route.secure) {
+        return (
+          <PrivateRoute>
+            { childrenRoute }
+          </PrivateRoute>
+        );
+      }*/
       return childrenRoute;
     };
-    if ( i18n.language !== this.props.match.params.lng) {
-      i18n.changeLanguage(this.props.match.params.lng);
-    }
     if (Config.configSet.i18n.whitelist.indexOf(this.props.match.params.lng) <= -1) {
       // Not in the whitelist language redirect to not found
       return (

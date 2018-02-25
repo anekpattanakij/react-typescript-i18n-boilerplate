@@ -9,9 +9,11 @@ import Error from '../../common/Error';
 import Loader from '../../components/Loader';
 import { Dispatch } from 'redux';
 import * as _ from 'lodash';
+import { json } from 'express';
 
 interface IProps {
   t(x: string): string;
+  userid:string;
 }
 
 export interface ILoginState {
@@ -29,19 +31,22 @@ export type ILoginProps = IProps &
   ILoginDispatch &
   RouteComponentProps<undefined>;
 
-class LoginViewClass extends React.PureComponent<ILoginProps> {
+interface IState {  
+    username: string;
+}
 
+class LoginViewClass extends React.PureComponent<ILoginProps> {
+  public state: IState;
+  
   handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
-    const user: User = this.props.user;
-    this.props.loginUser(user.userid);
+    this.props.loginUser( this.state['username']);
   }
 
   handleChange = (e: React.FormEvent<any>) => {
     if (e.target instanceof HTMLInputElement) {
       const nameInput = e.target.name;
       const valueInput = e.target.value;
-      //this.componentState[nameInput] = valueInput;
       this.setState({
         [nameInput]: valueInput,
       });
@@ -63,12 +68,12 @@ class LoginViewClass extends React.PureComponent<ILoginProps> {
           <ErrorList errorList={errorList} t={t} />
         </form>
         {user.logonStatus &&
-          <Redirect to="/LandingAuth" />
+          <Redirect to="/th/LandingAuth" />
         }
         <input
           placeholder="Username"
           name="username"
-          value={user.userid}
+          value={this.props.userid}
           onChange={this.handleChange}
         />
          <div style={{ textAlign: 'center' }}>
@@ -76,6 +81,7 @@ class LoginViewClass extends React.PureComponent<ILoginProps> {
         </div>
         <div style={{ textAlign: 'center' }}>
           <Link to={`/`}>Click here to redirect to main page</Link>
+          <Link to={`/LandingAuth`}>Click here to redirect to Auth page</Link>
         </div>
       </div>
     );
