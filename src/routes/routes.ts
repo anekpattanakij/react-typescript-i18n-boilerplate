@@ -29,6 +29,7 @@ const routeList: Array<object> = [
     path: '/landingAuth',
     exact: true,
     component: LandingAuthPage,
+    secure: true,
   },
 ];
 

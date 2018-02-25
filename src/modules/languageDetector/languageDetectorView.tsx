@@ -28,6 +28,12 @@ export interface ILanguageDetectorDispatch {
   setLanguage(n: string): void;
 }
 
+declare module JSX {
+  interface IntrinsicElements {
+    PrivateRoute: any;
+  }
+}
+
 export type ILanguageDetectorProps = IProps & ILanguageDetectorState & ILanguageDetectorDispatch & RouteComponentProps<undefined>;
 
 // const IndexView: React.StatelessComponent<IIndexProps> = ({ title, todos, loading, setTitle, saveTodo, setDone }) =>
@@ -43,7 +49,7 @@ class  LanguageDetector extends React.PureComponent<ILanguageDetectorProps> {
   }
 
   render() {
-    const RouteWithSubRoutes = (url:string, lng: string , route:any): React.ReactElement<typeof Route> => {
+    const RouteWithSubRoutes = (url:string, lng: string , route:any): React.ReactElement<typeof Route | typeof Element> => {
       const childrenRoute = (
         <Route
           key={_.uniqueId()}
@@ -55,13 +61,14 @@ class  LanguageDetector extends React.PureComponent<ILanguageDetectorProps> {
           )}
         />
       );
-      /* if (route.secure) {
+      if (route.secure) {
         return (
-          <PrivateRoute>
+          <PrivateRoute
+            key={_.uniqueId()}>
             { childrenRoute }
           </PrivateRoute>
         );
-      }*/
+      }
       return childrenRoute;
     };
     if (Config.configSet.i18n.whitelist.indexOf(this.props.match.params.lng) <= -1) {
