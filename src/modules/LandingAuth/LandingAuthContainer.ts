@@ -7,4 +7,4 @@ const stateToProps = (state: State): ILandingAuthState => ({
     user: state.login.user,
 });
 
-export default connect<ILandingAuthState, ILandingAuthProps>(stateToProps)(LandingAuthView);
+export default translate('common',{wait:false})(connect<ILandingAuthState, ILandingAuthProps>(stateToProps)(LandingAuthView));

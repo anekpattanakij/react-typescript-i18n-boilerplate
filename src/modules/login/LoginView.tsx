@@ -68,7 +68,7 @@ class LoginViewClass extends React.PureComponent<ILoginProps> {
           <ErrorList errorList={errorList} t={t} />
         </form>
         {user.logonStatus &&
-          <Redirect to="/th/LandingAuth" />
+          <Redirect to="/th/landingAuth" />
         }
         <input
           placeholder="Username"
@@ -80,8 +80,8 @@ class LoginViewClass extends React.PureComponent<ILoginProps> {
           <button className="btn" onClick={this.handleSubmit}> Login </button>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <Link to={`/`}>Click here to redirect to main page</Link>
-          <Link to={`/LandingAuth`}>Click here to redirect to Auth page</Link>
+          <Link to={`/th`}>Click here to redirect to main page</Link> <br/>
+          <Link to={`/th/members`}>Click here to members page</Link>
         </div>
       </div>
     );

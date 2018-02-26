@@ -10,6 +10,6 @@ const stateToProps = (state: State): ILoginState => ({
     errorList:  state.login.errorList,
 });
 
-export default translate('common')(connect<ILoginState, ILoginDispatch, ILoginProps>(stateToProps, {
+export default translate('common',{wait:false})(connect<ILoginState, ILoginDispatch, ILoginProps>(stateToProps, {
     ...dispatchList,
 })(LoginView));
