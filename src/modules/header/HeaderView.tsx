@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { translate } from 'react-i18next';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import './styles.scss';
 
@@ -16,7 +17,6 @@ export interface IHeaderDispatch {
 }
 
 export interface IHeaderDispatch {
-  changeLanguage(newLanguage:string): (dispatch: Dispatch<any>) => any;
 }
 
 export type IHeaderProps = IProps & IHeaderState & IHeaderDispatch;
@@ -40,8 +40,8 @@ const HeaderView: React.StatelessComponent<IHeaderProps> = ({ t }) => (
         <a className="blog-nav-item" href="#">
           About
         </a>
-        <button className="btn"> TH </button>
-        <button className="btn"> EN </button>
+        <Link to="/th/content" replace>TH</Link>
+        <Link to="/en/content" replace>EN</Link>
       </nav>
     </div>
   </div>

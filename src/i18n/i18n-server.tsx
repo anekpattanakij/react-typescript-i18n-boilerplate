@@ -26,7 +26,7 @@ const options = {
   },
 
   react: {
-    wait: true,
+    wait: false,
   },
 };
 
