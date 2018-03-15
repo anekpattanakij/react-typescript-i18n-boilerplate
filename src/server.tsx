@@ -37,12 +37,15 @@ const renderHtml = (html: string, preloadedState: State) =>
             <meta name="msapplication-config" content="/assets/browserconfig.xml" />
             <meta name="theme-color" content="#FF8041" />
             <link rel="stylesheet" href="/assets/styles.css">
+            <link href="/assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         </head>
         <body>
             <div id="app">${html}</div>
             <script>
                 window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
             </script>
+            <script src="/assets/lib/jquery-3.2.1.min.js"></script>
+            <script src="/assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="/assets/bundle.js"></script>
         </body>
     </html>

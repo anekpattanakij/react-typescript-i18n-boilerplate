@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Route, Switch, RouteComponentProps } from 'react-router-dom';
+import HeaderContainer from './header/HeaderContainer';
 import IndexContainer from './index/IndexContainer';
 import PageNotFound from '../components/PageNotFound';
 import routes from '../routes/routes';
@@ -30,6 +31,7 @@ const AppView: React.StatelessComponent<IAppViewProps> = () => {
   });
   return (
     <div className="app-base">
+      <HeaderContainer {...this.props} />
       <Switch>{routes.map(route => RouteWithSubRoutes(route))}</Switch>
     </div>
   );

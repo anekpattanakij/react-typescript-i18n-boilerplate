@@ -1,4 +1,4 @@
-import { Action } from 'redux';
+import { Action, Dispatch } from 'redux';
 import * as _ from 'lodash';
 import { makeAction, isAction } from '../../redux/guards';
 import Language from '../../common/Language';
@@ -20,6 +20,12 @@ const LanguageDetectorReducer = (state: LanguageDetectorState = new LanguageDete
     } else {
         return state;
     }
+};
+
+export const changeLanguage = (newLanguage:string) => {
+    return async (dispatch: Dispatch<any>) => {
+      return dispatch(setLanguage(newLanguage));
+    };
 };
 
 export default LanguageDetectorReducer;

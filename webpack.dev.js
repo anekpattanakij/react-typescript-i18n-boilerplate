@@ -49,7 +49,8 @@ module.exports = {
             { from: path.resolve(__dirname, 'manifest.json'), to: 'assets' },
             { from: path.resolve(__dirname, 'browserconfig.xml'), to: 'assets' },
             { from: path.resolve(__dirname, 'src/icons'), to: 'assets/icons' },
-            { from: path.resolve(__dirname, 'src/locales'), to: 'assets/locales' }
+            { from: path.resolve(__dirname, 'src/locales'), to: 'assets/locales' },
+            { from: path.resolve(__dirname, 'src/lib'), to: 'assets/lib' }
         ]),
         new webpack.EnvironmentPlugin({ 'NODE_ENV': 'development' }),
         new webpack.HotModuleReplacementPlugin(),

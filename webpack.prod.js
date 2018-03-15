@@ -31,7 +31,8 @@ module.exports = {
             { from: path.resolve(__dirname, 'manifest.json') },
             { from: path.resolve(__dirname, 'browserconfig.xml') },
             { from: path.resolve(__dirname, 'src/icons'), to: 'icons' },
-            { from: path.resolve(__dirname, 'src/locales'), to: 'locales' }
+            { from: path.resolve(__dirname, 'src/locales'), to: 'locales' },
+            { from: path.resolve(__dirname, 'src/lib'), to: 'lib' }
         ]),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
