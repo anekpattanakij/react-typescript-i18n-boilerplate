@@ -71,7 +71,7 @@ class  LanguageDetector extends React.PureComponent<ILanguageDetectorProps> {
       }
       return childrenRoute;
     };
-    if (Config.configSet.i18n.whitelist.indexOf(this.props.match.params.lng) <= -1) {
+    if (Config.i18n.whitelist.indexOf(this.props.match.params.lng) <= -1) {
       // Not in the whitelist language redirect to not found
       return (
         <div>

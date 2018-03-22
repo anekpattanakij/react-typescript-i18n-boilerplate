@@ -7,7 +7,7 @@ import { Config } from '../../config';
 export const CHANGE_LANGUAGE:string = 'LANGUAGE_CHANGE';
 
 export class LanguageDetectorState {
-    readonly language: string = Config.configSet.i18n.fallbackLng[0];
+    readonly language: string = Config.i18n.fallbackLng[0];
     readonly readyStatus: string = CHANGE_LANGUAGE;
 }
 
