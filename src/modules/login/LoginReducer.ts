@@ -28,7 +28,7 @@ const sleep = (ms:number):Promise<any> =>{
     return new Promise(resolve => setTimeout(resolve, ms));
   };
 
-export const loginUser = (userid:string) => {
+export const loginUser = (userid:string, password:string) => {
     return async (dispatch: Dispatch<any>) => {
     dispatch(loginRequesting());
     await sleep(LOGIN_SLEEP_TIME);

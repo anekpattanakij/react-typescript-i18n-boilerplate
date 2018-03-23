@@ -14,6 +14,7 @@ import { json } from 'express';
 interface IProps {
   t(x: string): string;
   userid:string;
+  password:string;
 }
 
 export interface ILoginState {
@@ -23,7 +24,7 @@ export interface ILoginState {
 }
 
 export interface ILoginDispatch {
-  loginUser(userid: string): (dispatch: Dispatch<any>) => any;
+  loginUser(userid: string,password:string): (dispatch: Dispatch<any>) => any;
 }
 
 export type ILoginProps = IProps &
@@ -33,6 +34,7 @@ export type ILoginProps = IProps &
 
 interface IState {  
     username: string;
+    password: string;
 }
 
 class LoginViewClass extends React.PureComponent<ILoginProps> {
@@ -40,7 +42,7 @@ class LoginViewClass extends React.PureComponent<ILoginProps> {
   
   handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
-    this.props.loginUser( this.state['username']);
+    this.props.loginUser( this.state['username'],this.state['password']);
   }
 
   handleChange = (e: React.FormEvent<any>) => {
@@ -74,6 +76,12 @@ class LoginViewClass extends React.PureComponent<ILoginProps> {
           placeholder="Username"
           name="username"
           value={this.props.userid}
+          onChange={this.handleChange}
+        />
+        <input
+          placeholder="Password"
+          name="password"
+          value={this.props.password}
           onChange={this.handleChange}
         />
          <div style={{ textAlign: 'center' }}>
