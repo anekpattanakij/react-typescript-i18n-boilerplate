@@ -4,7 +4,7 @@ import { State } from '../../redux/reducer';
 import LandingAuthView,{ILandingAuthState, ILandingAuthProps } from './LandingAuthView';
 
 const stateToProps = (state: State): ILandingAuthState => ({
-    user: state.login.user,
+    user: state.user.user,
 });
 
 export default translate('common',{wait:false})(connect<ILandingAuthState, ILandingAuthProps>(stateToProps)(LandingAuthView));

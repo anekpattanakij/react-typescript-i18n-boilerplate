@@ -2,9 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import { State } from '../redux/reducer';
-
 import User from '../common/User';
-import { LoginState } from '../modules/login/LoginReducer';
+
 
 type Props = {
   key:any,
@@ -31,7 +30,7 @@ const PrivateRoute = ({ auth, children}: Props&IPrivateRouteState) => {
 };
 
 const stateToProps = (state: State): IPrivateRouteState => ({
-  auth: state.login.user,
+  auth: state.user.user,
 });
 
 
