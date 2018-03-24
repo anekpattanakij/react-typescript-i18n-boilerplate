@@ -3,11 +3,16 @@ import { translate } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
+import { Config } from '../../config';
 import { withRouter, RouteComponentProps } from 'react-router';
 import './styles.scss';
 
+const PATH_SEPERATOR = '/';
+const IGNORE_FIRST_PATH_WITH_LANGUAGE = 1;
+
 interface IProps {
   t(x: string): string;
+  location: any;
 }
 
 export interface IHeaderState {}
@@ -21,7 +26,22 @@ export type IHeaderProps = IProps & IHeaderState & IHeaderDispatch;
 class HeaderView extends React.PureComponent<
   RouteComponentProps<{}> & IHeaderProps
 > {
+  private removeLanguageFromPath(input: string): string {
+    let returnPath: string;
+    if (input) {
+      let splitedPath = input.substring(IGNORE_FIRST_PATH_WITH_LANGUAGE);
+      splitedPath = splitedPath.substring(splitedPath.indexOf(PATH_SEPERATOR));
+      returnPath = splitedPath;
+    } else {
+      // if empty path - return local path
+      returnPath = input;
+    }
+    return returnPath;
+  }
   render() {
+    // TODO cut pathname and insert language
+    const thaiPathname = '/th' + this.removeLanguageFromPath(location.pathname);
+    const engPathname = '/en' + this.removeLanguageFromPath(location.pathname);
     return (
       <div className="blog-masthead">
         <div className="container">
@@ -41,10 +61,10 @@ class HeaderView extends React.PureComponent<
             <a className="blog-nav-item" href="#">
               About
             </a>
-            <Link to="/th/content" replace>
+            <Link to={thaiPathname} replace>
               TH
             </Link>
-            <Link to="/en/content" replace>
+            <Link to={engPathname} replace>
               EN
             </Link>
           </nav>
