@@ -9,7 +9,7 @@
         "curly": true,
         "no-var-keyword": true,
         "triple-equals": true,
-        "indent": ["spaces"],
+        "indent": [true,"spaces"],
         "prefer-const": true,
         "semicolon": [true, "always"],
         "eofline": true,
