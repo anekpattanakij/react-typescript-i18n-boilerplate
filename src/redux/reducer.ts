@@ -6,6 +6,7 @@ import IndexReducer, { IndexEpics, IndexState } from '../modules/index/IndexRedu
 import LanguageDetectorReducer, { LanguageDetectorState } from '../modules/languageDetector/languageDetectorReducer';
 import MemberReducer, { MemberState } from '../modules/members/MemberReducer';
 import UserReducer, { UserState } from '../modules/login/UserReducer';
+import { reducer as formReducer } from 'redux-form';
 
 const reducer = combineReducers<State>({
     router: routerReducer,
@@ -13,6 +14,7 @@ const reducer = combineReducers<State>({
     languageDetector: LanguageDetectorReducer,
     member: MemberReducer,
     user: UserReducer,
+    form: formReducer,
 });
 
 export class State {

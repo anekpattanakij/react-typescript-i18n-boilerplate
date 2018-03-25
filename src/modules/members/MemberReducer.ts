@@ -7,6 +7,9 @@ import Member from '../../common/Member';
 const MEMBERS_API =
   'https://my-json-server.typicode.com/anekpattanakij/react-typescript-i18n-boilerplate/members';
 
+export const LOCAL_STORAGE_MEMBERS = 'LOCAL_STORAGE_MEMBERS';
+export const LOCAL_STORAGE_MEMBERS_STATE = 'LOCAL_STORAGE_MEMBERS_STATE';
+
 export const MEMBERS_INITIAL = 'MEMBERS_INITIAL';
 export const MEMBERS_REQUESTING = 'MEMBERS_REQUESTING';
 export const MEMBERS_SUCCESS = 'MEMBERS_SUCCESS';
@@ -15,8 +18,8 @@ export const MEMBERS_FAILURE = 'MEMBERS_FAILURE';
 const setInitializeMembers = (): Array<Member> => {
   let returnInitial: Array<Member> = [];
   try {
-    if (localStorage.getItem('members')) {
-      returnInitial = JSON.parse(localStorage.getItem('members'));
+    if (localStorage.getItem(LOCAL_STORAGE_MEMBERS)) {
+      returnInitial = JSON.parse(localStorage.getItem(LOCAL_STORAGE_MEMBERS));
     }
   } catch (err) {
     // do nothing use initial value
@@ -27,7 +30,7 @@ const setInitializeMembers = (): Array<Member> => {
 export class MemberState {
   readonly members: Array<Member> = setInitializeMembers();
   readonly loading: boolean = false;
-  readonly readyStatus: string = localStorage.getItem('memberState') || MEMBERS_INITIAL;
+  readonly readyStatus: string = localStorage.getItem(LOCAL_STORAGE_MEMBERS_STATE) || MEMBERS_INITIAL;
 }
 
 export const loadMembersRequesting = makeAction(MEMBERS_REQUESTING)(() => ({
@@ -69,7 +72,8 @@ const MemberReducer = (
       readyStatus: MEMBERS_REQUESTING,
     };
   } else if (isAction(action, loadMembersSuccess)) {
-    localStorage.setItem('members',JSON.stringify(action.payload));
+    localStorage.setItem(LOCAL_STORAGE_MEMBERS,JSON.stringify(action.payload));
+    localStorage.setItem(LOCAL_STORAGE_MEMBERS_STATE,MEMBERS_SUCCESS);
     return {
       ...state,
       members: action.payload,
@@ -77,6 +81,7 @@ const MemberReducer = (
       readyStatus: MEMBERS_SUCCESS,
     };
   } else if (isAction(action, loadMembersFailure)) {
+    localStorage.setItem(LOCAL_STORAGE_MEMBERS_STATE,MEMBERS_FAILURE);
     return {
       ...state,
       loading: false,

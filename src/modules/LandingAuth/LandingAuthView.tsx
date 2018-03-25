@@ -33,7 +33,7 @@ class LandingAuthViewClass extends React.PureComponent<ILandingAuthProps> {
         <Helmet>
           <title>Landing After Login Page</title>
         </Helmet>
-        Welcome, {user.userid}
+        Welcome, {user.email}
       </div>
     );
   }

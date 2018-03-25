@@ -1,4 +1,6 @@
+import { Config } from './../../config/index';
 import { Action, Dispatch } from 'redux';
+import axios from 'axios';
 import * as _ from 'lodash';
 import { makeAction, isAction } from '../../redux/guards';
 import User from '../../common/User';
@@ -6,6 +8,12 @@ import Error from '../../common/Error';
 
 const LOGIN_SLEEP_TIME = 1000;
 const LOGIN_SUCCESS_CHANCE = 0.5;
+
+const API_LOGIN_URL = Config.apiHost + ':' + Config.apiPort + '/login';
+
+export const LOCAL_STORAGE_USERS = 'LOCAL_STORAGE_USERS';
+export const LOCAL_STORAGE_LOGIN_STATE = 'LOCAL_STORAGE_LOGIN_STATE';
+export const LOCAL_STORAGE_LOGOUT_STATE = 'LOCAL_STORAGE_LOGOUT_STATE';
 
 export const LOGIN_INITIAL = 'LOGIN_INITIAL';
 export const LOGIN_REQUESTING = 'LOGIN_REQUESTING';
@@ -17,11 +25,28 @@ export const LOGOUT_REQUESTING = 'LOGOUT_REQUESTING';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
+const setInitializeUser = (): User => {
+  let returnInitial: User;
+  try {
+    if (localStorage.getItem(LOCAL_STORAGE_USERS)) {
+      returnInitial = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS));
+    }
+  } catch (err) {
+    // do nothing use initial value
+  }
+  if (!returnInitial) {
+    returnInitial = new User();
+  }
+  return returnInitial;
+};
+
 export class UserState {
-  readonly user: User = new User('', false);
+  readonly user: User = setInitializeUser();
   readonly errorList: Array<Error> = [];
   readonly loading: boolean = false;
-  readonly readyStatus: string = LOGIN_INITIAL;
+  readonly readyStatus: string = localStorage.getItem(
+    LOCAL_STORAGE_LOGIN_STATE,
+  ) || LOGIN_INITIAL;
 }
 
 export const loginRequesting = makeAction(LOGIN_REQUESTING)(() => ({
@@ -55,16 +80,14 @@ const sleep = (ms: number): Promise<any> => {
 export const loginUser = (userid: string, password: string) => {
   return async (dispatch: Dispatch<any>) => {
     dispatch(loginRequesting());
-    await sleep(LOGIN_SLEEP_TIME);
-    if (Math.random() > LOGIN_SUCCESS_CHANCE) {
-      const user = new User(userid, true);
-      dispatch(loginSuccess(user));
-    } else {
-      const errors: Array<Error> = [];
-      const err: Error = new Error('ERR001', 'Logon Fail');
-      errors.push(err);
-      dispatch(loginFailure(errors));
-    }
+    axios
+      .get(API_LOGIN_URL)
+      .then(user => {
+        dispatch(loginSuccess(user));
+      })
+      .catch(error => {
+        dispatch(loginFailure(error));
+      });
   };
 };
 
@@ -73,7 +96,9 @@ export const logoutUser = (userid: string, refreshToken: string) => {
     dispatch(loginRequesting());
     await sleep(LOGIN_SLEEP_TIME);
     if (Math.random() > LOGIN_SUCCESS_CHANCE) {
-      const user = new User(userid, true);
+      const user = new User();
+      user.email = null;
+      user.logonStatus = false;
       dispatch(loginSuccess(user));
     } else {
       const errors: Array<Error> = [];
