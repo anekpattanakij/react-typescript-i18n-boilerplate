@@ -13,8 +13,8 @@ import LoginFormView from './LoginFormView';
 
 interface IProps {
   t(x: string): string;
-  userid:string;
-  password:string;
+  userid: string;
+  password: string;
 }
 
 export interface ILoginState {
@@ -24,7 +24,7 @@ export interface ILoginState {
 }
 
 export interface ILoginDispatch {
-  loginUser(userid: string,password:string): (dispatch: Dispatch<any>) => any;
+  loginUser(userid: string, password: string): (dispatch: Dispatch<any>) => any;
 }
 
 export type ILoginProps = IProps &
@@ -32,17 +32,29 @@ export type ILoginProps = IProps &
   ILoginDispatch &
   RouteComponentProps<undefined>;
 
-interface IState {  
-    username: string;
-    password: string;
+interface IState {
+  username: string;
+  password: string;
 }
 
 class LoginViewClass extends React.PureComponent<ILoginProps> {
   public state: IState;
-  
-    render() {
+  submit = (values: any): void => {
+    // put JSON input to dispatch login
+    try {
+      this.props.loginUser(values.email, values.password);
+    } catch (err) { 
+      // display some error
+    }
+  }
+
+  render() {
+    const user: User = this.props.user; 
     return (
       <div>
+        {user.logonStatus && 
+          <Redirect to="/th/landingAuth" /> 
+        } 
         <LoginFormView {...this.props}/>
       </div>
     );

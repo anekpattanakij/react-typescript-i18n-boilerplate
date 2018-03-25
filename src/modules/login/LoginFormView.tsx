@@ -1,82 +1,105 @@
 import * as React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { render } from 'react-dom';
+import { Form, Field } from 'react-final-form';
 
-const FIELD_VALIDATE_MINIMUM_USER_LENGTH: number = 15;
-const FIELD_VALIDATE_MINIMUM_AGE: number = 18;
+const number300 = 300;
+const number0 = 0;
+const number2 = 2;
+const number18 = 18;
 
-const validate = (values: any) => {
-  const errors: any = {};
-  if (!values.username) {
-    errors.username = 'Required';
-  } else if (values.username.length > FIELD_VALIDATE_MINIMUM_USER_LENGTH) {
-    errors.username = 'Must be 15 characters or less';
-  }
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-  if (!values.age) {
-    errors.age = 'Required';
-  } else if (isNaN(Number(values.age))) {
-    errors.age = 'Must be a number';
-  } else if (Number(values.age) < FIELD_VALIDATE_MINIMUM_AGE) {
-    errors.age = 'Sorry, you must be at least 18 years old';
-  }
-  return errors;
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+const onSubmit = async (values: any) => {
+  await sleep(number300);
+  window.alert(JSON.stringify(values));
 };
 
-const warn = (values: any) => {
-  const warnings: any = {};
-  if (values.age < FIELD_VALIDATE_MINIMUM_AGE) {
-    warnings.age = 'Hmm, you seem a bit young...';
-  }
-  return warnings;
-};
+const required = (value: any) => (value ? undefined : 'Required');
+const mustBeNumber = (value: any) =>
+  isNaN(value) ? 'Must be a number' : undefined;
+const minValue = (min: any) => (value: any) =>
+  isNaN(value) || value >= min ? undefined : `Should be greater than ${min}`;
+const composeValidators = (...validators: Array<any>) => (value: any) =>
+  validators.reduce((error, validator) => error || validator(value), undefined);
 
-const renderField = ({
-  input,
-  label,
-  type,
-  meta: { touched, error, warning },
-}: any) => (
+/* export default (props: any)  => (
   <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} placeholder={label} type={type} />
-      {touched &&
-        ((error && <span>{error}</span>) ||
-          (warning && <span>{warning}</span>))}
-    </div>
-  </div>
-);
-
-const SyncValidationForm = (props: any) => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+    <h2>Login Form</h2>
+    <Form
+      onSubmit={onSubmit}
+      render={({
+        invalid,
+        handleSubmit,
+        reset,
+        submitting,
+        pristine,
+        values,
+      }) => (*/
+export default (props: any) => {
+  const { invalid, handleSubmit, reset, submitting, pristine, values } = props;
   return (
-    <form onSubmit={handleSubmit}>
-      <Field
-        name="username"
-        type="text"
-        component={renderField}
-        label="Username"
+    <div>
+      <Form
+        onSubmit={onSubmit}
+        render={({
+          invalid,
+          handleSubmit,
+          reset,
+          submitting,
+          pristine,
+          values,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="firstName" validate={required}>
+              {({ input, meta }) => (
+                <div>
+                  <label>First Name</label>
+                  <input {...input} type="text" placeholder="First Name" />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+            <Field name="lastName" validate={required}>
+              {({ input, meta }) => (
+                <div>
+                  <label>Last Name</label>
+                  <input {...input} type="text" placeholder="Last Name" />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+            <Field
+              name="age"
+              validate={composeValidators(
+                required,
+                mustBeNumber,
+                minValue(number18),
+              )}
+            >
+              {({ input, meta }) => (
+                <div>
+                  <label>Age</label>
+                  <input {...input} type="text" placeholder="Age" />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+            <div className="buttons">
+              <button type="submit" disabled={invalid || submitting}>
+                Submit
+              </button>
+              <button
+                type="button"
+                onClick={reset}
+                disabled={submitting || pristine}
+              >
+                Reset
+              </button>
+            </div>
+            <pre>{JSON.stringify(values)}</pre>
+          </form>
+        )}
       />
-      <Field name="email" type="email" component={renderField} label="Email" />
-      <Field name="age" type="number" component={renderField} label="Age" />
-      <div>
-        <button type="submit" disabled={submitting}>
-          Submit
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
-        </button>
-      </div>
-    </form>
+    </div>
   );
 };
-
-export default reduxForm({
-  form: 'syncValidation', // a unique identifier for this form
-  validate, // <--- validation function given to redux-form
-  warn, // <--- warning function given to redux-form
-})(SyncValidationForm);
