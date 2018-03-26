@@ -22,25 +22,15 @@ const minValue = (min: any) => (value: any) =>
 const composeValidators = (...validators: Array<any>) => (value: any) =>
   validators.reduce((error, validator) => error || validator(value), undefined);
 
-/* export default (props: any)  => (
-  <div>
-    <h2>Login Form</h2>
-    <Form
-      onSubmit={onSubmit}
-      render={({
-        invalid,
-        handleSubmit,
-        reset,
-        submitting,
-        pristine,
-        values,
-      }) => (*/
 export default (props: any) => {
-  const { invalid, handleSubmit, reset, submitting, pristine, values } = props;
+  const { loginUser, invalid, handleSubmit, reset, submitting, pristine, values } = props;
+  const submitLoginUser = (values:any):void =>  {
+    loginUser(values.email,values.password);
+  };
   return (
     <div>
       <Form
-        onSubmit={onSubmit}
+        onSubmit={submitLoginUser}
         render={({
           invalid,
           handleSubmit,
@@ -50,40 +40,25 @@ export default (props: any) => {
           values,
         }) => (
           <form onSubmit={handleSubmit}>
-            <Field name="firstName" validate={required}>
+            <Field name="email" validate={required}>
               {({ input, meta }) => (
                 <div>
-                  <label>First Name</label>
-                  <input {...input} type="text" placeholder="First Name" />
+                  <label>E-mail</label>
+                  <input {...input} type="text" placeholder="Email" />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>
               )}
             </Field>
-            <Field name="lastName" validate={required}>
+            <Field name="password" validate={required}>
               {({ input, meta }) => (
                 <div>
-                  <label>Last Name</label>
-                  <input {...input} type="text" placeholder="Last Name" />
+                  <label>Password</label>
+                  <input {...input} type="text" placeholder="password" />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>
               )}
             </Field>
-            <Field
-              name="age"
-              validate={composeValidators(
-                required,
-                mustBeNumber,
-                minValue(number18),
-              )}
-            >
-              {({ input, meta }) => (
-                <div>
-                  <label>Age</label>
-                  <input {...input} type="text" placeholder="Age" />
-                  {meta.error && meta.touched && <span>{meta.error}</span>}
-                </div>
-              )}
-            </Field>
+
             <div className="buttons">
               <button type="submit" disabled={invalid || submitting}>
                 Submit
@@ -96,7 +71,6 @@ export default (props: any) => {
                 Reset
               </button>
             </div>
-            <pre>{JSON.stringify(values)}</pre>
           </form>
         )}
       />

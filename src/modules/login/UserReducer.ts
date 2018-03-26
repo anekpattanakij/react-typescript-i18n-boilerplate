@@ -77,11 +77,16 @@ const sleep = (ms: number): Promise<any> => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-export const loginUser = (userid: string, password: string) => {
+export const loginUser = (email: string, password: string) => {
   return async (dispatch: Dispatch<any>) => {
     dispatch(loginRequesting());
+    // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
     axios
-      .get(API_LOGIN_URL)
+      .post(API_LOGIN_URL, {
+        email,
+        password,
+      })
       .then(user => {
         dispatch(loginSuccess(user));
       })

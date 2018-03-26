@@ -32,22 +32,8 @@ export type ILoginProps = IProps &
   ILoginDispatch &
   RouteComponentProps<undefined>;
 
-interface IState {
-  username: string;
-  password: string;
-}
-
 class LoginViewClass extends React.PureComponent<ILoginProps> {
-  public state: IState;
-  submit = (values: any): void => {
-    // put JSON input to dispatch login
-    try {
-      this.props.loginUser(values.email, values.password);
-    } catch (err) { 
-      // display some error
-    }
-  }
-
+ 
   render() {
     const user: User = this.props.user; 
     return (
