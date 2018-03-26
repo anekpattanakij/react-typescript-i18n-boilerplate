@@ -91,7 +91,7 @@ export const loginUser = (email: string, password: string) => {
         dispatch(loginSuccess(user));
       })
       .catch(error => {
-        dispatch(loginFailure(error));
+        dispatch(loginFailure(error.response.data));
       });
   };
 };
@@ -136,7 +136,7 @@ const UserReducer = (
   } else if (isAction(action, loginFailure)) {
     return {
       ...state,
-      errorList: action.payload,
+      errorList: [action.payload],
       loading: false,
       readyStatus: LOGIN_FAILURE,
     };

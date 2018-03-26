@@ -41,6 +41,7 @@ class LoginViewClass extends React.PureComponent<ILoginProps> {
         {user.logonStatus && 
           <Redirect to="/th/landingAuth" /> 
         } 
+        <ErrorList errorList={this.props.errorList} t={this.props.t}/>
         <LoginFormView {...this.props}/>
       </div>
     );
