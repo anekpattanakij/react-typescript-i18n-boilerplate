@@ -132,6 +132,7 @@ const UserReducer = (
       user: action.payload,
       loading: false,
       readyStatus: LOGIN_SUCCESS,
+      errorList: null,
     };
   } else if (isAction(action, loginFailure)) {
     return {
@@ -152,6 +153,7 @@ const UserReducer = (
       user: action.payload,
       loading: false,
       readyStatus: LOGOUT_SUCCESS,
+      errorList: null,
     };
   } else if (isAction(action, logoutFailure)) {
     return {
