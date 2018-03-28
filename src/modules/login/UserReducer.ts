@@ -29,7 +29,9 @@ const setInitializeUser = (): User => {
   let returnInitial: User;
   try {
     if (localStorage.getItem(LOCAL_STORAGE_USERS)) {
-      returnInitial = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS));
+      returnInitial = User.decodeUser(
+        JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS)),
+      );
     }
   } catch (err) {
     // do nothing use initial value
@@ -127,12 +129,19 @@ const UserReducer = (
       readyStatus: LOGIN_REQUESTING,
     };
   } else if (isAction(action, loginSuccess)) {
+    // Transform JSON payload to user object
+    const returnUser: User = User.decodeUser(action.payload.data.user);
+    localStorage.setItem(
+      LOCAL_STORAGE_USERS,
+      JSON.stringify(returnUser.toPlainObject()),
+    );
+    localStorage.setItem(LOCAL_STORAGE_LOGIN_STATE, LOGIN_SUCCESS);
     return {
       ...state,
-      user: action.payload,
+      user: returnUser,
       loading: false,
       readyStatus: LOGIN_SUCCESS,
-      errorList: null,
+      errorList: [],
     };
   } else if (isAction(action, loginFailure)) {
     return {
@@ -150,10 +159,10 @@ const UserReducer = (
   } else if (isAction(action, logoutSuccess)) {
     return {
       ...state,
-      user: action.payload,
+      user: null,
       loading: false,
       readyStatus: LOGOUT_SUCCESS,
-      errorList: null,
+      errorList: [],
     };
   } else if (isAction(action, logoutFailure)) {
     return {
