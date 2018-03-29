@@ -1,26 +1,26 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Member from '../../../common/Member';
 import Loader from '../../../components/Loader';
 import { Dispatch } from 'redux';
 import MemberDisplay from '../../../components/memberDisplay';
 import * as _ from 'lodash';
+import { RouteComponentProps } from 'react-router';
 
-export interface IMemberState {
+export interface ISecureMemberState {
   members: Array<Member>;
   loading: boolean;
 }
 
-export interface IMemberDispatch {
+export interface ISecureMemberDispatch {
   loadMembers(): (dispatch: Dispatch<any>) => any;
 }
 
-export type IMemberProps = IMemberState &
-  IMemberDispatch &
+export type ISecureMemberProps = ISecureMemberState &
+ISecureMemberDispatch &
   RouteComponentProps<undefined>;
 
-class MemberViewClass extends React.PureComponent<IMemberProps> {
+class SecureMemberViewClass extends React.PureComponent<ISecureMemberProps> {
   componentDidMount() {
     const { loadMembers } = this.props;
     loadMembers();
@@ -48,4 +48,4 @@ class MemberViewClass extends React.PureComponent<IMemberProps> {
   }
 }
 
-export default MemberViewClass;
+export default SecureMemberViewClass;

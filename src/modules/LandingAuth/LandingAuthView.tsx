@@ -8,6 +8,7 @@ import ErrorList from '../../components/ErrorList';
 import Error from '../../common/Error';
 import Loader from '../../components/Loader';
 import { Dispatch } from 'redux';
+import SecureMemberContainer from '../secureZone/secureMembers/SecureMemberContainer';
 import * as _ from 'lodash';
 
 interface IProps {
@@ -34,6 +35,7 @@ class LandingAuthViewClass extends React.PureComponent<ILandingAuthProps> {
           <title>Landing After Login Page</title>
         </Helmet>
         Welcome, {user.email}
+        <SecureMemberContainer/>
       </div>
     );
   }

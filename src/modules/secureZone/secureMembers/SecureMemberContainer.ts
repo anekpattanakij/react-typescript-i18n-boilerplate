@@ -1,14 +1,21 @@
 import { connect } from 'react-redux';
 import { State } from '../../../redux/reducer';
 import { dispatchList } from './SecureMemberReducer';
-import Member from '../../../common/Member';
-import MemberView, { IMemberState, IMemberDispatch, IMemberProps } from './SecureMemberView';
+import SecureMemberView, {
+  ISecureMemberState,
+  ISecureMemberDispatch,
+  ISecureMemberProps,
+} from './SecureMemberView';
 
-const stateToProps = (state: State): IMemberState => ({
-    members: state.member.members,
-    loading: state.member.loading,
+const stateToProps = (state: State): ISecureMemberState => ({
+  members: state.secureMember.members,
+  loading: state.secureMember.loading,
 });
 
-export default connect<IMemberState, IMemberDispatch, IMemberProps>(stateToProps, {
-    ...dispatchList,
-})(MemberView);
+export default  connect<
+  ISecureMemberState,
+  ISecureMemberDispatch,
+  ISecureMemberProps
+>(stateToProps, {
+  ...dispatchList,
+})(SecureMemberView);
