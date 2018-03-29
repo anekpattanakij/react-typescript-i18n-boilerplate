@@ -131,6 +131,7 @@ const UserReducer = (
   } else if (isAction(action, loginSuccess)) {
     // Transform JSON payload to user object
     const returnUser: User = User.decodeUser(action.payload.data.user);
+    returnUser.logonStatus = true;
     localStorage.setItem(
       LOCAL_STORAGE_USERS,
       JSON.stringify(returnUser.toPlainObject()),
