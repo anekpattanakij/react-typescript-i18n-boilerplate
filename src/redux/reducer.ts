@@ -14,6 +14,7 @@ const reducer = combineReducers<State>({
     languageDetector: LanguageDetectorReducer,
     member: MemberReducer,
     user: UserReducer,
+    secureMember: SecureMemberReducer,
 });
 
 export class State {

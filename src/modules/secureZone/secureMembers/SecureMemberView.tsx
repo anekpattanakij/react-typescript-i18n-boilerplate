@@ -5,7 +5,6 @@ import Loader from '../../../components/Loader';
 import { Dispatch } from 'redux';
 import MemberDisplay from '../../../components/memberDisplay';
 import * as _ from 'lodash';
-import { RouteComponentProps } from 'react-router';
 
 export interface ISecureMemberState {
   members: Array<Member>;
@@ -16,9 +15,7 @@ export interface ISecureMemberDispatch {
   loadMembers(): (dispatch: Dispatch<any>) => any;
 }
 
-export type ISecureMemberProps = ISecureMemberState &
-ISecureMemberDispatch &
-  RouteComponentProps<undefined>;
+export type ISecureMemberProps = ISecureMemberState & ISecureMemberDispatch;
 
 class SecureMemberViewClass extends React.PureComponent<ISecureMemberProps> {
   componentDidMount() {

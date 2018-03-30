@@ -14,8 +14,7 @@ const stateToProps = (state: State): ISecureMemberState => ({
 
 export default  connect<
   ISecureMemberState,
-  ISecureMemberDispatch,
-  ISecureMemberProps
+  ISecureMemberDispatch
 >(stateToProps, {
   ...dispatchList,
 })(SecureMemberView);
