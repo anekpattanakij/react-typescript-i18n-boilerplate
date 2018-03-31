@@ -28,9 +28,9 @@ export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 const setInitializeUser = (): User => {
   let returnInitial: User;
   try {
-    if (localStorage.getItem(LOCAL_STORAGE_USERS)) {
+    if (sessionStorage.getItem(LOCAL_STORAGE_USERS)) {
       returnInitial = User.decodeUser(
-        JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS)),
+        JSON.parse(sessionStorage.getItem(LOCAL_STORAGE_USERS)),
       );
     }
   } catch (err) {
@@ -46,7 +46,7 @@ export class UserState {
   readonly user: User = setInitializeUser();
   readonly errorList: Array<Error> = [];
   readonly loading: boolean = false;
-  readonly readyStatus: string = localStorage.getItem(
+  readonly readyStatus: string = sessionStorage.getItem(
     LOCAL_STORAGE_LOGIN_STATE,
   ) || LOGIN_INITIAL;
 }
@@ -132,11 +132,11 @@ const UserReducer = (
     // Transform JSON payload to user object
     const returnUser: User = User.decodeUser(action.payload.data.user);
     returnUser.logonStatus = true;
-    localStorage.setItem(
+    sessionStorage.setItem(
       LOCAL_STORAGE_USERS,
       JSON.stringify(returnUser.toPlainObject()),
     );
-    localStorage.setItem(LOCAL_STORAGE_LOGIN_STATE, LOGIN_SUCCESS);
+    sessionStorage.setItem(LOCAL_STORAGE_LOGIN_STATE, LOGIN_SUCCESS);
     return {
       ...state,
       user: returnUser,
