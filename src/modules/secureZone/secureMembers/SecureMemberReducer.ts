@@ -4,6 +4,8 @@ import axios from 'axios';
 import * as _ from 'lodash';
 import { makeAction, isAction } from '../../../redux/guards';
 import Member from '../../../common/Member';
+import User from '../../../common/User';
+import { API_CALLING_METHOD, callSecureApi } from '../../../common/ApiPortal';
 
 const MEMBERS_API =
   Config.apiHost + ':' + Config.apiPort + '/secureWithFuction';
@@ -55,24 +57,23 @@ export const loadMembersFailure = makeAction(SECURE_MEMBERS_FAILURE)(error => ({
   payload: error,
 }));
 
-export const loadMembers = (accessToken:String) => {
+export const loadMembers = (user: User) => {
   return (dispatch: Dispatch<any>) => {
     dispatch(loadMembersRequesting());
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    const callbackFromSuccess = (result: any) => {
+      dispatch(loadMembersSuccess(result));
+    };
 
-    axios
-      .get(MEMBERS_API, {
-        timeout: 6000,
-        headers: {
-          bearer: accessToken,
-        },
-      })
-      .then(members => {
-        dispatch(loadMembersSuccess(members));
-      })
-      .catch(error => {
-        dispatch(loadMembersFailure(error));
-      });
+    const callbackFromFailure = (error: any) => {
+      dispatch(loadMembersFailure(error));
+    };
+    callSecureApi(
+      user,
+      MEMBERS_API,
+      API_CALLING_METHOD.GET,
+      callbackFromSuccess,
+      callbackFromFailure,
+    );
   };
 };
 

@@ -14,7 +14,7 @@ export interface ISecureMemberState {
 }
 
 export interface ISecureMemberDispatch {
-  loadMembers(accessToken: string): (dispatch: Dispatch<any>) => any;
+  loadMembers(user: User): (dispatch: Dispatch<any>) => any;
 }
 
 export type ISecureMemberProps = ISecureMemberState & ISecureMemberDispatch;
@@ -22,7 +22,7 @@ export type ISecureMemberProps = ISecureMemberState & ISecureMemberDispatch;
 class SecureMemberViewClass extends React.PureComponent<ISecureMemberProps> {
   componentDidMount() {
     const { loadMembers } = this.props;
-    loadMembers(this.props.user.accessToken);
+    loadMembers(this.props.user);
   }
 
   render() {
