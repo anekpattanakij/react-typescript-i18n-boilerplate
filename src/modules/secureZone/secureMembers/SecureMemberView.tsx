@@ -1,18 +1,20 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import Member from '../../../common/Member';
+import User from '../../../common/User';
 import Loader from '../../../components/Loader';
 import { Dispatch } from 'redux';
 import MemberDisplay from '../../../components/memberDisplay';
 import * as _ from 'lodash';
 
 export interface ISecureMemberState {
+  user: User;
   members: Array<Member>;
   loading: boolean;
 }
 
 export interface ISecureMemberDispatch {
-  loadMembers(): (dispatch: Dispatch<any>) => any;
+  loadMembers(accessToken: string): (dispatch: Dispatch<any>) => any;
 }
 
 export type ISecureMemberProps = ISecureMemberState & ISecureMemberDispatch;
@@ -20,7 +22,7 @@ export type ISecureMemberProps = ISecureMemberState & ISecureMemberDispatch;
 class SecureMemberViewClass extends React.PureComponent<ISecureMemberProps> {
   componentDidMount() {
     const { loadMembers } = this.props;
-    loadMembers();
+    loadMembers(this.props.user.accessToken);
   }
 
   render() {

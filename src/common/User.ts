@@ -8,7 +8,7 @@ export default class User extends BaseCustomClass {
     this.email = null;
     this.password = null;
     this.usertype = null;
-    this.accesssToken = null;
+    this.accessToken = null;
     this.refreshToken = null;
     this.lastLoginDate = new Date();
     this.registerDate = new Date();
@@ -20,7 +20,7 @@ export default class User extends BaseCustomClass {
   public email: string;
   public password: string;
   public usertype: number;
-  public accesssToken: string;
+  public accessToken: string;
   public refreshToken: string;
   public lastLoginDate: Date;
   public registerDate: Date;

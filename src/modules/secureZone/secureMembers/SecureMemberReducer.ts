@@ -55,11 +55,18 @@ export const loadMembersFailure = makeAction(SECURE_MEMBERS_FAILURE)(error => ({
   payload: error,
 }));
 
-export const loadMembers = () => {
+export const loadMembers = (accessToken:String) => {
   return (dispatch: Dispatch<any>) => {
     dispatch(loadMembersRequesting());
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+
     axios
-      .get(MEMBERS_API)
+      .get(MEMBERS_API, {
+        timeout: 6000,
+        headers: {
+          bearer: accessToken,
+        },
+      })
       .then(members => {
         dispatch(loadMembersSuccess(members));
       })

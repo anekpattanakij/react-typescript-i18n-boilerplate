@@ -16,6 +16,8 @@ export interface IMemberDispatch {
   loadMembers(): (dispatch: Dispatch<any>) => any;
 }
 
+// Use route component props when need to access to match props only, if not, it doesn't need to use
+// This for example import only
 export type IMemberProps = IMemberState &
   IMemberDispatch &
   RouteComponentProps<undefined>;

@@ -8,6 +8,7 @@ import SecureMemberView, {
 } from './SecureMemberView';
 
 const stateToProps = (state: State): ISecureMemberState => ({
+  user: state.user.user,
   members: state.secureMember.members,
   loading: state.secureMember.loading,
 });
