@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { makeAction, isAction } from '../../../redux/guards';
 import Member from '../../../common/Member';
 import User from '../../../common/User';
+import { sessionTimeout } from '../../login/UserReducer';
 import { API_CALLING_METHOD, callSecureApi } from '../../../common/ApiPortal';
 
 const MEMBERS_API =
@@ -20,13 +21,14 @@ export const SECURE_MEMBERS_SUCCESS = 'SECURE_MEMBERS_SUCCESS';
 export const SECURE_MEMBERS_FAILURE = 'SECURE_MEMBERS_FAILURE';
 
 const setInitializeMembers = (): Array<Member> => {
-  let returnInitial: Array<Member> = [];
+  const returnInitial: Array<Member> = [];
   try {
-    if (localStorage.getItem(LOCAL_STORAGE_SECURE_MEMBERS)) {
+    // TODO clear localstorage for testing
+    /* if (localStorage.getItem(LOCAL_STORAGE_SECURE_MEMBERS)) {
       returnInitial = JSON.parse(
         localStorage.getItem(LOCAL_STORAGE_SECURE_MEMBERS),
       );
-    }
+    }*/
   } catch (err) {
     // do nothing use initial value
   }
@@ -36,9 +38,11 @@ const setInitializeMembers = (): Array<Member> => {
 export class SecureMemberState {
   readonly members: Array<Member> = setInitializeMembers();
   readonly loading: boolean = false;
-  readonly readyStatus: string = localStorage.getItem(
+  // TODO clear localstorage for testing
+  /* readonly readyStatus: string = localStorage.getItem(
     LOCAL_STORAGE_SECURE_MEMBERS_STATE,
-  ) || SECURE_MEMBERS_INITIAL;
+  ) || SECURE_MEMBERS_INITIAL; */
+  readonly readyStatus: string = SECURE_MEMBERS_INITIAL;
 }
 
 export const loadMembersRequesting = makeAction(SECURE_MEMBERS_REQUESTING)(
@@ -67,12 +71,19 @@ export const loadMembers = (user: User) => {
     const callbackFromFailure = (error: any) => {
       dispatch(loadMembersFailure(error));
     };
+
+    const callbackFromSessionTimeout = () => {
+      dispatch(sessionTimeout());
+    };
+
+    
     callSecureApi(
       user,
       MEMBERS_API,
       API_CALLING_METHOD.GET,
       callbackFromSuccess,
       callbackFromFailure,
+      callbackFromSessionTimeout,
     );
   };
 };

@@ -15,6 +15,9 @@ export const LOCAL_STORAGE_USERS = 'LOCAL_STORAGE_USERS';
 export const LOCAL_STORAGE_LOGIN_STATE = 'LOCAL_STORAGE_LOGIN_STATE';
 export const LOCAL_STORAGE_LOGOUT_STATE = 'LOCAL_STORAGE_LOGOUT_STATE';
 
+export const UPDATE_ACCESS_TOKEN = 'UPDATE_ACCESS_TOKEN';
+export const SESSION_TIMEOUT = 'SESSION_TIMEOUT';
+
 export const LOGIN_INITIAL = 'LOGIN_INITIAL';
 export const LOGIN_REQUESTING = 'LOGIN_REQUESTING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -46,6 +49,7 @@ export class UserState {
   readonly user: User = setInitializeUser();
   readonly errorList: Array<Error> = [];
   readonly loading: boolean = false;
+  readonly sessionTimeout: boolean = false;
   readonly readyStatus: string = sessionStorage.getItem(
     LOCAL_STORAGE_LOGIN_STATE,
   ) || LOGIN_INITIAL;
@@ -54,9 +58,9 @@ export class UserState {
 export const loginRequesting = makeAction(LOGIN_REQUESTING)(() => ({
   type: LOGIN_REQUESTING,
 }));
-export const loginSuccess = makeAction(LOGIN_SUCCESS)(userid => ({
+export const loginSuccess = makeAction(LOGIN_SUCCESS)(user => ({
   type: LOGIN_SUCCESS,
-  payload: userid,
+  payload: user,
 }));
 export const loginFailure = makeAction(LOGIN_FAILURE)(errors => ({
   type: LOGIN_FAILURE,
@@ -66,14 +70,25 @@ export const loginFailure = makeAction(LOGIN_FAILURE)(errors => ({
 export const logoutRequesting = makeAction(LOGOUT_REQUESTING)(() => ({
   type: LOGOUT_REQUESTING,
 }));
-export const logoutSuccess = makeAction(LOGOUT_SUCCESS)(userid => ({
+export const logoutSuccess = makeAction(LOGOUT_SUCCESS)(user => ({
   type: LOGOUT_SUCCESS,
-  payload: userid,
+  payload: user,
 }));
 export const logoutFailure = makeAction(LOGOUT_FAILURE)(errors => ({
   type: LOGOUT_FAILURE,
   payload: errors,
 }));
+
+export const sessionTimeout = makeAction(SESSION_TIMEOUT)(() => ({
+  type: SESSION_TIMEOUT,
+}));
+
+export const updateAccessToken = makeAction(UPDATE_ACCESS_TOKEN)(accessToken => ({
+  type: UPDATE_ACCESS_TOKEN,
+  payload: accessToken,
+}));
+
+
 
 const sleep = (ms: number): Promise<any> => {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -143,6 +158,7 @@ const UserReducer = (
       loading: false,
       readyStatus: LOGIN_SUCCESS,
       errorList: [],
+      sessionTimeout: false,
     };
   } else if (isAction(action, loginFailure)) {
     return {
@@ -172,7 +188,23 @@ const UserReducer = (
       loading: false,
       readyStatus: LOGOUT_FAILURE,
     };
-  } else {
+  } else if (isAction(action, sessionTimeout)) {
+    return {
+      ...state,
+      loading: false,
+      readyStatus: SESSION_TIMEOUT,
+      sessionTimeout: true,
+    };
+  } else if (isAction(action, updateAccessToken)) {
+    console.log(action.payload);
+    return {
+      ...state,
+      user: state.user.accessToken = action.payload.data.accessToken,
+      loading: false,
+      readyStatus: SESSION_TIMEOUT,
+      sessionTimeout: true,
+    };
+  }  else {
     return state;
   }
 };
