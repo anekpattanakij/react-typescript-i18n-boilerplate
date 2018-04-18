@@ -4,6 +4,7 @@ import HeaderContainer from './header/HeaderContainer';
 import IndexContainer from './index/IndexContainer';
 import routes from '../routes/routes';
 import LanguageDetectorPage from './languageDetector/languageDetectorView';
+import PageNotFound from '../components/PageNotFound';
 import * as _ from 'lodash';
 
 export type IAppViewProps = RouteComponentProps<undefined>;
@@ -27,6 +28,10 @@ const AppView: React.StatelessComponent<IAppViewProps> = () => {
     params: {
       name: 'lng',
     },
+  });
+  routes.push({
+    path: '*',
+    component: PageNotFound,
   });
   return (
     <div className="app-base">

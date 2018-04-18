@@ -61,6 +61,8 @@ class  LanguageDetector extends React.PureComponent<ILanguageDetectorProps> {
           )}
         />
       );
+      console.log(route.path);
+      console.log(route.secure);
       if (route.secure) {
         return (
           <PrivateRoute
