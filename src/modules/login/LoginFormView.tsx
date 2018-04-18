@@ -27,7 +27,6 @@ export default (props: any) => {
     value ? undefined : t('error_field_validation.ERR_REQUIRED');
   return (
     <div>
-      <input type="hidden" name="initialate_translate_function" value="{t('blank_content.text')}"/>
       <Form
         onSubmit={submitLoginUser}
         render={({
@@ -51,7 +50,7 @@ export default (props: any) => {
             <Field name="password" validate={required}>
               {({ input, meta }) => (
                 <div>
-                  <label>Password</label>
+                  <label>{t('form_common.password')}</label>
                   <input {...input} type="text" placeholder="password" />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>

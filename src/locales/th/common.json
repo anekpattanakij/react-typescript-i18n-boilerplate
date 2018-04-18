@@ -1,7 +1,4 @@
 {
-    "blank_content": {
-      "text": ""
-    },
     "content": {
       "text": "ตัวอย่าง React Redux i18n"
     },
@@ -10,6 +7,9 @@
     },
     "error_field_validation": {
       "ERR_REQUIRED": "กรอกด้วย!!"
+    },
+    "form_common": {
+      "password": "รหัสผ่าน"
     }
   }
     
