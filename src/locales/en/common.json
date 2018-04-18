@@ -1,9 +1,15 @@
 {
+    "blank_content": {
+      "text": ""
+    },
     "content": {
       "text": "React Redux i18n Example"
     },
     "error": {
-      "ERR001": "Login Fail"
+      "ERROR_CODE_INVALID_INPUT": "Login Fail"
+    },
+    "error_field_validation": {
+      "ERR_REQUIRED": "Required!!"
     }
   }
       

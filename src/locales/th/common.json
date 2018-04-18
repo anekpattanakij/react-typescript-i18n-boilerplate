@@ -1,9 +1,15 @@
 {
+    "blank_content": {
+      "text": ""
+    },
     "content": {
       "text": "ตัวอย่าง React Redux i18n"
     },
     "error": {
-      "ERR001": "ข้อมูลผู้ใช้งานไม่ถูกต้อง"
+      "ERROR_CODE_INVALID_INPUT": "ข้อมูลผู้ใช้งานไม่ถูกต้อง"
+    },
+    "error_field_validation": {
+      "ERR_REQUIRED": "กรอกด้วย!!"
     }
   }
     

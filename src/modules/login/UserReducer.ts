@@ -10,6 +10,7 @@ const LOGIN_SLEEP_TIME = 1000;
 const LOGIN_SUCCESS_CHANCE = 0.5;
 
 const API_LOGIN_URL = Config.apiHost + ':' + Config.apiPort + '/login';
+const API_REGISTER_URL = Config.apiHost + ':' + Config.apiPort + '/register';
 
 export const LOCAL_STORAGE_USERS = 'LOCAL_STORAGE_USERS';
 export const LOCAL_STORAGE_LOGIN_STATE = 'LOCAL_STORAGE_LOGIN_STATE';
@@ -27,6 +28,11 @@ export const LOGOUT_INITIAL = 'LOGOUT_INITIAL';
 export const LOGOUT_REQUESTING = 'LOGOUT_REQUESTING';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
+
+export const REGISTER_INITIAL = 'REGISTER_INITIAL';
+export const REGISTER_REQUESTING = 'REGISTER_REQUESTING';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 
 const setInitializeUser = (): User => {
   let returnInitial: User;
@@ -79,16 +85,28 @@ export const logoutFailure = makeAction(LOGOUT_FAILURE)(errors => ({
   payload: errors,
 }));
 
+export const registerRequesting = makeAction(REGISTER_REQUESTING)(() => ({
+  type: REGISTER_REQUESTING,
+}));
+export const registerSuccess = makeAction(REGISTER_SUCCESS)(user => ({
+  type: REGISTER_SUCCESS,
+  payload: user,
+}));
+export const registerFailure = makeAction(REGISTER_FAILURE)(errors => ({
+  type: REGISTER_FAILURE,
+  payload: errors,
+}));
+
 export const sessionTimeout = makeAction(SESSION_TIMEOUT)(() => ({
   type: SESSION_TIMEOUT,
 }));
 
-export const updateAccessToken = makeAction(UPDATE_ACCESS_TOKEN)(accessToken => ({
-  type: UPDATE_ACCESS_TOKEN,
-  payload: accessToken,
-}));
-
-
+export const updateAccessToken = makeAction(UPDATE_ACCESS_TOKEN)(
+  accessToken => ({
+    type: UPDATE_ACCESS_TOKEN,
+    payload: accessToken,
+  }),
+);
 
 const sleep = (ms: number): Promise<any> => {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -128,6 +146,30 @@ export const logoutUser = (userid: string, refreshToken: string) => {
       errors.push(err);
       dispatch(loginFailure(errors));
     }
+  };
+};
+
+export const registerUser = (
+  email: string,
+  password: string,
+  displayName: string,
+) => {
+  return async (dispatch: Dispatch<any>) => {
+    dispatch(loginRequesting());
+    // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios
+      .post(API_REGISTER_URL, {
+        email,
+        password,
+        displayName,
+      })
+      .then(user => {
+        dispatch(loginSuccess(user));
+      })
+      .catch(error => {
+        dispatch(loginFailure(error.response.data));
+      });
   };
 };
 
@@ -188,6 +230,36 @@ const UserReducer = (
       loading: false,
       readyStatus: LOGOUT_FAILURE,
     };
+  } else if (isAction(action, registerRequesting)) {
+    return {
+      ...state,
+      loading: true,
+      readyStatus: REGISTER_REQUESTING,
+    };
+  } else if (isAction(action, registerSuccess)) {
+    // Transform JSON payload to user object
+    const returnUser: User = User.decodeUser(action.payload.data.user);
+    returnUser.logonStatus = true;
+    sessionStorage.setItem(
+      LOCAL_STORAGE_USERS,
+      JSON.stringify(returnUser.toPlainObject()),
+    );
+    sessionStorage.setItem(LOCAL_STORAGE_LOGIN_STATE, REGISTER_SUCCESS);
+    return {
+      ...state,
+      user: returnUser,
+      loading: false,
+      readyStatus: REGISTER_SUCCESS,
+      errorList: [],
+      sessionTimeout: false,
+    };
+  } else if (isAction(action, registerFailure)) {
+    return {
+      ...state,
+      errorList: [action.payload],
+      loading: false,
+      readyStatus: REGISTER_FAILURE,
+    };
   } else if (isAction(action, sessionTimeout)) {
     return {
       ...state,
@@ -199,12 +271,12 @@ const UserReducer = (
     console.log(action.payload);
     return {
       ...state,
-      user: state.user.accessToken = action.payload.data.accessToken,
+      user: (state.user.accessToken = action.payload.data.accessToken),
       loading: false,
       readyStatus: SESSION_TIMEOUT,
       sessionTimeout: true,
     };
-  }  else {
+  } else {
     return state;
   }
 };

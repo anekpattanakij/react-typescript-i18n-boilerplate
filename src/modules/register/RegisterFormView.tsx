@@ -12,7 +12,7 @@ const composeValidators = (...validators: Array<any>) => (value: any) =>
 export default (props: any) => {
   const {
     t,
-    loginUser,
+    registerUser,
     invalid,
     handleSubmit,
     reset,
@@ -21,13 +21,12 @@ export default (props: any) => {
     values,
   } = props;
   const submitLoginUser = (values: any): void => {
-    loginUser(values.email, values.password);
+    registerUser(values.email, values.password, values.displayName);
   };
   const required = (value: any) =>
     value ? undefined : t('error_field_validation.ERR_REQUIRED');
   return (
     <div>
-      <input type="hidden" name="initialate_translate_function" value="{t('blank_content.text')}"/>
       <Form
         onSubmit={submitLoginUser}
         render={({
@@ -53,6 +52,16 @@ export default (props: any) => {
                 <div>
                   <label>Password</label>
                   <input {...input} type="text" placeholder="password" />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+
+            <Field name="displayName" validate={required}>
+              {({ input, meta }) => (
+                <div>
+                  <label>displayName</label>
+                  <input {...input} type="text" placeholder="displayName" />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>
               )}

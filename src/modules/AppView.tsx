@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Route, Switch, RouteComponentProps } from 'react-router-dom';
 import HeaderContainer from './header/HeaderContainer';
 import IndexContainer from './index/IndexContainer';
-import PageNotFound from '../components/PageNotFound';
 import routes from '../routes/routes';
 import LanguageDetectorPage from './languageDetector/languageDetectorView';
 import * as _ from 'lodash';
