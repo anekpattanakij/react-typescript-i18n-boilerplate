@@ -126,7 +126,7 @@ export const loginUser = (email: string, password: string) => {
         dispatch(loginSuccess(user));
       })
       .catch(error => {
-        dispatch(loginFailure(error.response.data));
+        dispatch(loginFailure(Error.transformErrorFromAxios(error)));
       });
   };
 };
@@ -168,7 +168,7 @@ export const registerUser = (
         dispatch(loginSuccess(user));
       })
       .catch(error => {
-        dispatch(loginFailure(error.response.data));
+        dispatch(loginFailure(Error.transformErrorFromAxios(error)));
       });
   };
 };
