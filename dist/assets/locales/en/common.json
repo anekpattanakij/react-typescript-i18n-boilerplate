@@ -1,0 +1,15 @@
+{
+    "content": {
+      "text": "React Redux i18n Example"
+    },
+    "error": {
+      "ERROR_CODE_INVALID_INPUT": "Login Fail"
+    },
+    "error_field_validation": {
+      "ERR_REQUIRED": "Required!!"
+    },
+    "form_common": {
+      "password": "password"
+    }
+  }
+      

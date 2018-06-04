@@ -1,0 +1,15 @@
+{
+    "content": {
+      "text": "ตัวอย่าง React Redux i18n"
+    },
+    "error": {
+      "ERROR_CODE_INVALID_INPUT": "ข้อมูลผู้ใช้งานไม่ถูกต้อง"
+    },
+    "error_field_validation": {
+      "ERR_REQUIRED": "กรอกด้วย!!"
+    },
+    "form_common": {
+      "password": "รหัสผ่าน"
+    }
+  }
+    

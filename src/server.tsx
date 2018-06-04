@@ -7,9 +7,8 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter, Route } from 'react-router-dom';
 import { routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createMemoryHistory';
-import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware } from 'redux-observable';
-import reducer, { epics, State } from './redux/reducer';
+import { createStore, applyMiddleware, Action } from 'redux';
+import reducer, { State } from './redux/reducer';
 import AppContainer from './modules/AppContainer';
 import i18n from './i18n/i18n-server';
 import * as i18nMiddleware from 'i18next-express-middleware';
@@ -58,9 +57,9 @@ const app = express();
 app.use('/assets', express.static(path.join('assets'), { redirect: false }));
 app.use(i18nMiddleware.handle(i18n));
 app.use((req: express.Request, res: express.Response) => {
-    const store = createStore<State>(
+    const store = createStore<State,Action<any>,{},{}>(
         reducer,
-        applyMiddleware(routerMiddleware(createHistory()), createEpicMiddleware(epics)),
+        applyMiddleware(routerMiddleware(createHistory())),
     );
     const context: { url?: string } = {};
     const html = renderToString(

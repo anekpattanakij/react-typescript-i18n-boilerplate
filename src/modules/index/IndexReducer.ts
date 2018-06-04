@@ -2,7 +2,6 @@ import { Action } from 'redux';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mapTo';
-import { Epic, combineEpics } from 'redux-observable';
 import { makeAction, isAction } from '../../redux/guards';
 import Todo from '../../common/Todo';
 
@@ -25,20 +24,6 @@ export const saveTodo = makeAction(SAVE_TODO)(() => ({ type: SAVE_TODO }));
 export const saveTodoSuccess = makeAction(SAVE_TODO_SUCCESS)(() => ({ type: SAVE_TODO_SUCCESS }));
 export const setDone = makeAction(SET_DONE)((i: number) => ({ type: SET_DONE, payload: i }));
 export const setDoneSuccess = makeAction(SET_DONE_SUCCESS)((i: number) => ({ type: SET_DONE_SUCCESS, payload: i }));
-
-export const saveTodoEpic: Epic<Action, undefined> = action$ =>
-    action$
-        .ofType(SAVE_TODO)
-        .delay(testDelay)
-        .mapTo(saveTodoSuccess());
-
-export const setDoneEpic: Epic<Action, undefined> = action$ =>
-    action$
-        .ofType(SET_DONE)
-        .delay(testDelay)
-        .map(action => isAction(action, setDone) && setDoneSuccess(action.payload));
-
-export const IndexEpics = combineEpics(saveTodoEpic, setDoneEpic);
 
 const IndexReducer = (state: IndexState = new IndexState(), action: Action): IndexState => {
     if (isAction(action, setTitle)) {

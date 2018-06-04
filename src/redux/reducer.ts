@@ -1,8 +1,7 @@
 import { LanguageDetector } from 'i18next-express-middleware';
 import { combineReducers } from 'redux';
-import { combineEpics } from 'redux-observable';
 import { routerReducer, RouterState } from 'react-router-redux';
-import IndexReducer, { IndexEpics, IndexState } from '../modules/index/IndexReducer';
+import IndexReducer, { IndexState } from '../modules/index/IndexReducer';
 import LanguageDetectorReducer, { LanguageDetectorState } from '../modules/languageDetector/languageDetectorReducer';
 import MemberReducer, { MemberState } from '../modules/members/MemberReducer';
 import UserReducer, { UserState } from '../modules/login/UserReducer';
@@ -25,7 +24,5 @@ export class State {
     readonly user: UserState = new UserState();
     readonly secureMember: SecureMemberState = new SecureMemberState();
 }
-
-export const epics = combineEpics(IndexEpics);
 
 export default reducer;

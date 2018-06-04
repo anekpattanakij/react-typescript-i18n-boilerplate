@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Config } from '../../config';
 import { withRouter, RouteComponentProps } from 'react-router';
-import './styles.scss';
 
 const PATH_SEPERATOR = '/';
 const IGNORE_FIRST_PATH_WITH_LANGUAGE = 1;
