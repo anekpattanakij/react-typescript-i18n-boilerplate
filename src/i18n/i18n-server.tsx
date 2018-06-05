@@ -20,8 +20,8 @@ const options = {
   },
 
   backend: {
-    loadPath: 'src/locales/{{lng}}/{{ns}}.json',
-    addPath: 'src/locales/add/{{lng}}/{{ns}}.json',
+    loadPath: 'assets/locales/{{lng}}/{{ns}}.json',
+    addPath: 'assets/locales/add/{{lng}}/{{ns}}.json',
     jsonIndent: 2,
   },
 
